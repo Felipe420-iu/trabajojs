@@ -508,12 +508,138 @@
         // Función principal para ejecutar todos los ejercicios
         function ejecutarEjercicios() {
             ejercicio1();
+            escribir("<hr>");
             ejercicio2();
+            escribir("<hr>");
             ejercicio3();
+            escribir("<hr>");
             mostrarEjemplosFunciones();
+            escribir("<hr>");
             crearCalculadora();
+            escribir("<hr>");
             explicarObjetos();
+            escribir("<hr>");
+            ejercicio5();
         }
+
+        // Ejercicio 5: Objetos en JavaScript 
+        function ejercicio5() {
+            escribir("<h3>Ejercicio 5: Objetos en JavaScript</h3>"); 
+            escribir(` 
+              <div style="margin-bottom:10px;"> 
+                <input type="text" id="inputBusqueda" placeholder="Escribe un nombre, curso o edad"> 
+                <button onclick="mostrarNombres()">Mostrar nombres</button> 
+                <button onclick="buscarObjeto()">Buscar</button> 
+                <button onclick="mostrarTodosLosCursos()">Mostrar todos los cursos</button> 
+              </div> 
+              <div id="resultadoBusqueda" style="margin-bottom:10px;"></div> 
+            `); 
+            
+            // Conclusiones sobre el ejercicio 5
+            escribir("<p><strong>Conclusiones Ejercicio 5:</strong></p>");
+            escribir("<ul>");
+            escribir("<li>Los objetos agrupan datos y métodos relacionados.</li>");
+            escribir("<li>Se pueden buscar y mostrar datos dinámicamente en la página.</li>");
+            escribir("<li>Se pueden modificar, agregar y eliminar propiedades.</li>");
+            escribir("<li>Se pueden recorrer sus propiedades con un ciclo for...in.</li>");
+            escribir("</ul>");
+        }
+
+        // Array de personas para el ejercicio 5
+        const personas = [ 
+          { 
+            nombre: "Ana", 
+            cursos: ["Matemáticas", "Historia", "Programación"], 
+            edad: 22 
+          }, 
+          { 
+            nombre: "Felipe", 
+            cursos: ["Matemáticas", "Historia", "Programación"], 
+            edad: 26 
+          }, 
+          { 
+            nombre: "Oscar", 
+            cursos: ["Biología", "Física", "Fútbol"], 
+            edad: 45 
+          }, 
+          { 
+            nombre: "Luis", 
+            cursos: ["Arte", "Música", "Deportes"], 
+            edad: 30 
+          } 
+        ]; 
+
+        // Función para mostrar nombres de personas
+        function mostrarNombres() { 
+          let resultado = "<b>Nombres:</b><br>"; 
+          for (let persona of personas) { 
+            resultado += persona.nombre + "<br>"; 
+          } 
+          document.getElementById("resultadoBusqueda").innerHTML = resultado; 
+        } 
+
+        // Función para buscar objetos por nombre, curso o edad
+        function buscarObjeto() { 
+          let entrada = document.getElementById("inputBusqueda").value.trim().toLowerCase(); 
+          let resultado = ""; 
+
+          // Buscar por nombre exacto 
+          let personaEncontrada = personas.find(p => p.nombre.toLowerCase() === entrada); 
+          if (personaEncontrada) { 
+            resultado = "<b>Objeto encontrado:</b><br>"; 
+            resultado += "Nombre: " + personaEncontrada.nombre + "<br>"; 
+            resultado += "Edad: " + personaEncontrada.edad + "<br>"; 
+            resultado += "Cursos: " + personaEncontrada.cursos.join(", ") + "<br>"; 
+            document.getElementById("resultadoBusqueda").innerHTML = resultado; 
+            return; 
+          } 
+
+          // Buscar por curso 
+          let personasPorCurso = personas.filter(p => p.cursos.map(c => c.toLowerCase()).includes(entrada)); 
+          if (personasPorCurso.length > 0) { 
+            resultado = "<b>Personas que realizan el curso '" + entrada.charAt(0).toUpperCase() + entrada.slice(1) + "':</b><br>"; 
+            for (let persona of personasPorCurso) { 
+              resultado += "Nombre: " + persona.nombre + "<br>"; 
+              resultado += "Edad: " + persona.edad + "<br>"; 
+              resultado += "Cursos: " + persona.cursos.join(", ") + "<br><br>"; 
+            } 
+            document.getElementById("resultadoBusqueda").innerHTML = resultado; 
+            return; 
+          } 
+
+          // Buscar por edad exacta 
+          let edadNum = parseInt(entrada); 
+          if (!isNaN(edadNum)) { 
+            let personasPorEdad = personas.filter(p => p.edad === edadNum); 
+            if (personasPorEdad.length > 0) { 
+              resultado = "<b>Personas con edad " + edadNum + ":</b><br>"; 
+              for (let persona of personasPorEdad) { 
+                resultado += "Nombre: " + persona.nombre + "<br>"; 
+                resultado += "Edad: " + persona.edad + "<br>"; 
+                resultado += "Cursos: " + persona.cursos.join(", ") + "<br><br>"; 
+              } 
+              document.getElementById("resultadoBusqueda").innerHTML = resultado; 
+              return; 
+            } 
+          } 
+
+          document.getElementById("resultadoBusqueda").innerHTML = "No se encontró ningún objeto con ese dato."; 
+        } 
+
+        // Función para mostrar todos los cursos disponibles
+        function mostrarTodosLosCursos() { 
+          let resultado = "<b>Todos los cursos:</b><br>"; 
+          let cursosSet = new Set(); 
+          for (let persona of personas) { 
+            for (let curso of persona.cursos) { 
+              cursosSet.add(curso); 
+            } 
+          } 
+          for (let curso of cursosSet) { 
+            resultado += "- " + curso + "<br>"; 
+          } 
+          document.getElementById("resultadoBusqueda").innerHTML = resultado; 
+        } 
 
         // Ejecutar todos los ejercicios cuando se carga la página
         window.onload = ejecutarEjercicios;
