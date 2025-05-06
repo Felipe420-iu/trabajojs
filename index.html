@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conceptos Básicos de JavaScript</title>
+    <script src="ejercicio.js"></script>
+</head>
+<body>
+    
+    <div id="contenido"></div>
+
+    <script>
+        // ===== COMENTARIOS EN JAVASCRIPT =====
+        // Este es un comentario de una sola línea
+
+        /* Este es un comentario
+           de múltiples líneas
+           que puede abarcar varias líneas */
+
+        // Los comentarios son útiles para:
+        // 1. Documentar el código
+        // 2. Deshabilitar código temporalmente
+        // 3. Hacer el código más legible
+
+        // Función para escribir en el contenido
+        function escribir(texto) {
+            document.getElementById('contenido').innerHTML += texto;
+        }
+
+        // ===== EJERCICIO 1: DECLARACIÓN BÁSICA =====
+        // Diferencias entre var, let y const
+        function ejercicio1() {
+            escribir("<h3>Ejercicio 1: Declaración básica</h3>");
+            
+            // Usando var
+            var variable1 = "Valor inicial con var";
+            escribir("<p><strong>Variable con var:</strong></p>");
+            escribir("<p>Valor inicial: " + variable1 + "</p>");
+            
+            // Intentamos redefinir var (permitido)
+            var variable1 = "Nuevo valor con var";
+            escribir("<p>Después de redefinir: " + variable1 + "</p>");
+            
+            // Usando let
+            let variable2 = "Valor inicial con let";
+            escribir("<p><strong>Variable con let:</strong></p>");
+            escribir("<p>Valor inicial: " + variable2 + "</p>");
+            
+            // No podemos redefinir let en el mismo ámbito
+            // let variable2 = "Nuevo valor con let"; // Esto causaría un error
+            
+            // Pero sí podemos cambiar su valor
+            variable2 = "Valor modificado de let";
+            escribir("<p>Después de modificar: " + variable2 + "</p>");
+            
+            // Usando const
+            const variable3 = "Valor inicial con const";
+            escribir("<p><strong>Variable con const:</strong></p>");
+            escribir("<p>Valor inicial: " + variable3 + "</p>");
+            
+            // No podemos redefinir const
+            // const variable3 = "Nuevo valor con const"; // Esto causaría un error
+            
+            // Tampoco podemos cambiar su valor
+            // variable3 = "Valor modificado de const"; // Esto causaría un error
+            
+            // Conclusiones
+            escribir("<p><strong>Conclusiones:</strong></p>");
+            escribir("<ul>");
+            escribir("<li>var: Se puede redeclarar y modificar en cualquier momento.</li>");
+            escribir("<li>let: No se puede redeclarar en el mismo ámbito, pero sí modificar su valor.</li>");
+            escribir("<li>const: No se puede redeclarar ni modificar su valor una vez asignado.</li>");
+            escribir("</ul>");
+        }
+
+        // ===== EJERCICIO 2: ÁMBITO DE BLOQUE =====
+        function ejercicio2() {
+            escribir("<h3>Ejercicio 2: Ámbito de bloque</h3>");
+            
+            function pruebaScope() {
+                if (true) {
+                    var a = 1;  // Scope de función
+                    let b = 2;  // Scope de bloque
+                    const c = 3; // Scope de bloque
+                    
+                    escribir("<p>Dentro del bloque if:</p>");
+                    escribir("<ul>");
+                    escribir("<li>a (var): " + a + "</li>");
+                    escribir("<li>b (let): " + b + "</li>");
+                    escribir("<li>c (const): " + c + "</li>");
+                    escribir("</ul>");
+                }
+                
+                escribir("<p>Fuera del bloque if:</p>");
+                escribir("<ul>");
+                escribir("<li>a (var): " + a + "</li>"); // Accesible
+                
+                try {
+                    escribir("<li>b (let): " + b + "</li>"); // Error: b no está definido
+                } catch(err) {
+                    escribir("<li>b (let): Error - " + err.message + "</li>");
+                }
+                
+                try {
+                    escribir("<li>c (const): " + c + "</li>"); // Error: c no está definido
+                } catch(err) {
+                    escribir("<li>c (const): Error - " + err.message + "</li>");
+                }
+                escribir("</ul>");
+            }
+            
+            pruebaScope();
+            
+            // Ejemplo de scope global vs función
+            var nombre = "Juan";
+            
+            function saludar() {
+                escribir("<p>Dentro de la función saludar, nombre = " + nombre + "</p>");
+            }
+            
+            saludar();
+            
+            // Conclusiones
+            escribir("<p><strong>Conclusiones:</strong></p>");
+            escribir("<ul>");
+            escribir("<li>var: Tiene ámbito de función, es accesible fuera del bloque donde se declara.</li>");
+            escribir("<li>let y const: Tienen ámbito de bloque, solo son accesibles dentro del bloque donde se declaran.</li>");
+            escribir("<li>Las variables globales son accesibles desde cualquier función.</li>");
+            escribir("</ul>");
+        }
+
+        // ===== EJERCICIO 3: CONSTANTES CON OBJETOS =====
+        function ejercicio3() {
+            escribir("<h3>Ejercicio 3: Constantes con objetos</h3>");
+            
+            const persona = {
+                nombre: "Luis",
+                edad: 25
+            };
+            
+            escribir("<p>Objeto original:</p>");
+            escribir("<ul>");
+            escribir("<li>Nombre: " + persona.nombre + "</li>");
+            escribir("<li>Edad: " + persona.edad + "</li>");
+            escribir("</ul>");
+            
+            // Modificar una propiedad del objeto
+            persona.edad = 30;
+            
+            escribir("<p>Después de modificar la edad:</p>");
+            escribir("<ul>");
+            escribir("<li>Nombre: " + persona.nombre + "</li>");
+            escribir("<li>Edad: " + persona.edad + "</li>");
+            escribir("</ul>");
+            
+            try {
+                // Intentar reasignar el objeto completo
+                // persona = { nombre: "Ana", edad: 22 }; // Esto causaría un error
+                escribir("<p>Intentando reasignar el objeto completo: Error</p>");
+            } catch(err) {
+                escribir("<p>Error al reasignar: " + err.message + "</p>");
+            }
+            
+            // Conclusiones
+            escribir("<p><strong>Conclusiones:</strong></p>");
+            escribir("<ul>");
+            escribir("<li>Con const, no podemos reasignar la variable (cambiar a qué objeto apunta).</li>");
+            escribir("<li>Sin embargo, podemos modificar las propiedades del objeto al que apunta.</li>");
+            escribir("<li>const solo hace inmutable la referencia, no el contenido del objeto.</li>");
+            escribir("</ul>");
+        }
+
+        // ===== FUNCIONES EN JAVASCRIPT =====
+        function mostrarEjemplosFunciones() {
+            escribir("<h3>Funciones en JavaScript</h3>");
+            
+            // Función básica
+            function saludar() {
+                escribir("<p>Hola mundo</p>");
+            }
+            
+            // Función con parámetro
+            function saludarPersona(nombre) {
+                escribir("<p>Hola " + nombre + " </p>");
+            }
+            
+            // Función anónima (guardada en una variable)
+            const despedir = function(nombre) {
+                escribir("<p>Adiós, " + nombre + "</p>");
+            };
+            
+            // Función flecha (arrow function)
+            const sumar = (a, b) => {
+                return a + b;
+            };
+            
+            // Función con valor por defecto
+            function saludarInvitado(nombre = "invitado") {
+                escribir("<p>Bienvenido, " + nombre + " (función con valor por defecto)</p>");
+            }
+            
+            // Función que devuelve un valor
+            function multiplicar(a, b) {
+                return a * b;
+            }
+            
+            // Ejecutar las funciones
+            saludar();
+            saludarPersona("María");
+            despedir("Carlos");
+            escribir("<p>Suma de 4 + 6 = " + sumar(4, 6) + " (función flecha)</p>");
+            saludarInvitado();
+            saludarInvitado("Pedro");
+            let resultado = multiplicar(4, 6);
+            escribir("<p>Multiplicación de 4 * 6 = " + resultado + " (función que devuelve valor)</p>");
+        }
+
+        // ===== CALCULADORA EN JAVASCRIPT CON PROMPT =====
+        function crearCalculadora() {
+            escribir("<h3>Calculadora en JavaScript con Prompt</h3>");
+            
+            // Explicación de la calculadora
+            escribir("<p>Esta calculadora utiliza la función <code>prompt()</code> para solicitar datos al usuario.</p>");
+            escribir("<p>Haz clic en el botón para iniciar la calculadora:</p>");
+            
+            // Botón para iniciar la calculadora
+            escribir("<button onclick='iniciarCalculadoraConPrompts()' style='padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;'>Iniciar Calculadora</button>");
+
+            // Área para mostrar el historial
+            escribir("<div style='margin-top: 20px; border: 1px solid #ccc; padding: 10px; width: 300px;'>");
+            escribir("<h4>Historial de operaciones:</h4>");
+            escribir("<div id='historialCalculadora' style='font-family: monospace;'></div>");
+            escribir("</div>");
+            
+            // Explicación detallada
+            escribir("<div style='margin-top: 20px;'>");
+            escribir("<p><strong>Explicación:</strong></p>");
+            escribir("<ul>");
+            escribir("<li>La calculadora utiliza la función <code>prompt()</code> para solicitar datos al usuario.</li>");
+            escribir("<li>Solicita el primer número, luego el segundo número y finalmente la operación a realizar.</li>");
+            escribir("<li>Realiza la operación matemática según lo solicitado por el usuario.</li>");
+            escribir("<li>Muestra el resultado mediante un <code>alert()</code>.</li>");
+            escribir("<li>Mantiene un historial de las últimas 10 operaciones realizadas.</li>");
+            escribir("<li>Permite al usuario realizar múltiples operaciones hasta que decida salir.</li>");
+            escribir("</ul>");
+            escribir("</div>");
+        }
+
+        // ===== OBJETOS EN JAVASCRIPT =====
+        function explicarObjetos() {
+            escribir("<h3>Objetos en JavaScript</h3>");
+            
+            // Ejemplo básico de objeto
+            escribir("<h4>Creación básica de objetos</h4>");
+            escribir("<pre>");
+            escribir("let persona = {\n");
+            escribir("    nombre: \"Oscar\",\n");
+            escribir("    edad: 40,\n");
+            escribir("    ciudad: \"Bogotá\"\n");
+            escribir("};\n\n");
+            escribir("document.write(persona.nombre);  // Oscar\n");
+            escribir("document.write(persona['edad']); // 40");
+            escribir("</pre>");
+            
+            // Crear un objeto real y mostrar sus propiedades
+            let persona = {
+                nombre: "Oscar",
+                edad: 40,
+                ciudad: "Bogotá"
+            };
+            
+            escribir("<p>Accediendo a las propiedades del objeto:</p>");
+            escribir("<ul>");
+            escribir("<li>persona.nombre: " + persona.nombre + "</li>");
+            escribir("<li>persona['edad']: " + persona['edad'] + "</li>");
+            escribir("<li>persona.ciudad: " + persona.ciudad + "</li>");
+            escribir("</ul>");
+            
+            // Objeto con métodos
+            escribir("<h4>Objetos con métodos</h4>");
+            escribir("<pre>");
+            escribir("const persona = {\n");
+            escribir("    nombre: \"Ana\",\n");
+            escribir("    edad: 30,\n");
+            escribir("    saludar: function() {\n");
+            escribir("        document.write(\"Hola, soy \" + this.nombre);\n");
+            escribir("    }\n");
+            escribir("};\n\n");
+            escribir("persona.saludar();  // Hola, soy Ana");
+            escribir("</pre>");
+            
+            // Crear un objeto con métodos y ejecutarlo
+            const personaConMetodo = {
+                nombre: "Ana",
+                edad: 30,
+                saludar: function() {
+                    return "Hola, soy " + this.nombre;
+                }
+            };
+            
+            escribir("<p>Ejecutando el método saludar(): " + personaConMetodo.saludar() + "</p>");
+            
+            // Modificar propiedades
+            escribir("<h4>Modificar propiedades</h4>");
+            escribir("<pre>");
+            escribir("persona.edad = 31;\n");
+            escribir("document.write(persona.edad);  // 31");
+            escribir("</pre>");
+            
+            // Modificar el objeto real
+            personaConMetodo.edad = 31;
+            escribir("<p>Después de modificar: personaConMetodo.edad = " + personaConMetodo.edad + "</p>");
+            
+            // Agregar propiedades
+            escribir("<h4>Agregar nuevas propiedades</h4>");
+            escribir("<pre>");
+            escribir("persona.profesion = \"Ingeniera\";\n");
+            escribir("document.write(persona.profesion);  // Ingeniera");
+            escribir("</pre>");
+            
+            // Agregar propiedad al objeto real
+            personaConMetodo.profesion = "Ingeniera";
+            escribir("<p>Después de agregar: personaConMetodo.profesion = " + personaConMetodo.profesion + "</p>");
+            
+            // Eliminar propiedades
+            escribir("<h4>Eliminar propiedades</h4>");
+            escribir("<pre>");
+            escribir("delete persona.edad;\n");
+            escribir("document.write(persona.edad);  // undefined");
+            escribir("</pre>");
+            
+            // Eliminar propiedad del objeto real
+            delete personaConMetodo.edad;
+            escribir("<p>Después de eliminar: personaConMetodo.edad = " + personaConMetodo.edad + "</p>");
+            
+            // Recorrer propiedades
+            escribir("<h4>Recorrer propiedades de un objeto</h4>");
+            escribir("<pre>");
+            escribir("for (let clave in persona) {\n");
+            escribir("    document.write(clave + \": \" + persona[clave]);\n");
+            escribir("}");
+            escribir("</pre>");
+            
+            // Recorrer el objeto real
+            escribir("<p>Recorriendo todas las propiedades:</p>");
+            escribir("<ul>");
+            for (let clave in personaConMetodo) {
+                if (typeof personaConMetodo[clave] !== 'function') {
+                    escribir("<li>" + clave + ": " + personaConMetodo[clave] + "</li>");
+                } else {
+                    escribir("<li>" + clave + ": [Función]</li>");
+                }
+            }
+            escribir("</ul>");
+            
+            // Crear objetos con new Object()
+            escribir("<h4>Crear objetos con new Object()</h4>");
+            escribir("<pre>");
+            escribir("const persona = new Object();\n");
+            escribir("persona.nombre = \"Ana\";\n");
+            escribir("persona.edad = 30;\n");
+            escribir("persona.saludar = function() {\n");
+            escribir("    document.write(\"Hola, soy \" + this.nombre);\n");
+            escribir("};\n");
+            escribir("</pre>");
+            
+            // Crear objeto con new Object y datos iniciales
+            escribir("<h4>Crear objetos con new Object y datos iniciales</h4>");
+            escribir("<pre>");
+            escribir("const persona = new Object({\n");
+            escribir("    nombre: \"Ana\",\n");
+            escribir("    edad: 30\n");
+            escribir("});\n");
+            escribir("</pre>");
+            
+            // Crear un objeto real con new Object
+            const personaNueva = new Object({
+                nombre: "Carlos",
+                edad: 35
+            });
+            
+            escribir("<p>Objeto creado con new Object:</p>");
+            escribir("<ul>");
+            for (let clave in personaNueva) {
+                escribir("<li>" + clave + ": " + personaNueva[clave] + "</li>");
+            }
+            escribir("</ul>");
+            
+            // Conclusiones sobre objetos
+            escribir("<h4>Conclusiones sobre objetos en JavaScript</h4>");
+            escribir("<ul>");
+            escribir("<li>Los objetos son colecciones de propiedades y valores.</li>");
+            escribir("<li>Se pueden acceder a las propiedades con notación de punto (objeto.propiedad) o corchetes (objeto['propiedad']).</li>");
+            escribir("<li>Los objetos pueden contener métodos (funciones).</li>");
+            escribir("<li>Se pueden modificar, agregar y eliminar propiedades en cualquier momento.</li>");
+            escribir("<li>Se pueden recorrer todas las propiedades con un bucle for...in.</li>");
+            escribir("<li>Hay varias formas de crear objetos: literales de objeto {}, con new Object(), etc.</li>");
+            escribir("</ul>");
+        }
+
+        // Función para iniciar la calculadora con prompts
+        function iniciarCalculadoraConPrompts() {
+            // Array para almacenar el historial de operaciones
+            const historialOperaciones = [];
+            
+            // Función para actualizar el historial en la página
+            function actualizarHistorial() {
+                const historialElement = document.getElementById('historialCalculadora');
+                historialElement.innerHTML = '';
+                for (let i = historialOperaciones.length - 1; i >= 0; i--) {
+                    const item = document.createElement('div');
+                    item.textContent = historialOperaciones[i];
+                    historialElement.appendChild(item);
+                }
+            }
+            
+            let continuar = true;
+            while (continuar) {
+                // Solicitar el primer número
+                const primerNumero = prompt('localhost dice\nIngrese el primer número:');
+                if (primerNumero === null) {
+                    continuar = false;
+                    alert('Calculadora cerrada');
+                    break;
+                }
+                
+                // Validar que sea un número
+                if (isNaN(primerNumero) || primerNumero.trim() === '') {
+                    alert('Por favor ingrese un número válido');
+                    continue;
+                }
+                
+                // Solicitar el segundo número
+                const segundoNumero = prompt('localhost dice\nIngrese el segundo número:');
+                if (segundoNumero === null) {
+                    continuar = false;
+                    alert('Calculadora cerrada');
+                    break;
+                }
+                
+                // Validar que sea un número
+                if (isNaN(segundoNumero) || segundoNumero.trim() === '') {
+                    alert('Por favor ingrese un número válido');
+                    continue;
+                }
+                
+                // Solicitar la operación
+                const operacion = prompt('localhost dice\n¿Qué operación quieres hacer?\n\nsumar\nrestar\nmultiplicar\ndividir');
+                if (operacion === null) {
+                    continuar = false;
+                    alert('Calculadora cerrada');
+                    break;
+                }
+                
+                // Realizar la operación
+                let resultado;
+                let operacionTexto = '';
+                const num1 = parseFloat(primerNumero);
+                const num2 = parseFloat(segundoNumero);
+                
+                switch(operacion.toLowerCase()) {
+                    case 'sumar': 
+                        resultado = num1 + num2;
+                        operacionTexto = num1 + ' + ' + num2;
+                        break;
+                    case 'restar':
+                        resultado = num1 - num2;
+                        operacionTexto = num1 + ' - ' + num2;
+                        break;
+                    case 'multiplicar':
+                        resultado = num1 * num2;
+                        operacionTexto = num1 + ' * ' + num2;
+                        break;
+                    case 'dividir':
+                        if (num2 === 0) {
+                            alert('Error: No se puede dividir por cero');
+                            continue;
+                        }
+                        resultado = num1 / num2;
+                        operacionTexto = num1 + ' / ' + num2;
+                        break;
+                    default:
+                        alert('Operación no reconocida. Por favor ingrese: sumar, restar, multiplicar o dividir');
+                        continue;
+                }
+                
+                // Mostrar el resultado
+                const resultadoTexto = 'resultado\n' + operacionTexto + ' = ' + resultado;
+                alert(resultadoTexto);
+                
+                // Agregar al historial
+                historialOperaciones.push(operacionTexto + ' = ' + resultado);
+                if (historialOperaciones.length > 10) {
+                    historialOperaciones.shift();
+                }
+                actualizarHistorial();
+                
+                // Preguntar si desea continuar
+                const seguir = confirm('¿Desea realizar otra operación?');
+                if (!seguir) {
+                    continuar = false;
+                    alert('Calculadora cerrada');
+                }
+            }
+        }
+
+        // Función principal para ejecutar todos los ejercicios
+        function ejecutarEjercicios() {
+            ejercicio1();
+            ejercicio2();
+            ejercicio3();
+            mostrarEjemplosFunciones();
+            crearCalculadora();
+            explicarObjetos();
+        }
+
+        // Ejecutar todos los ejercicios cuando se carga la página
+        window.onload = ejecutarEjercicios;
+    </script>
+</body>
+</html>
